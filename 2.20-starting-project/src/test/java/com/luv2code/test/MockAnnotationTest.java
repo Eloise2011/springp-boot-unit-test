@@ -80,4 +80,15 @@ public class MockAnnotationTest {
         verify(dao,times(1)).checkNull(nullStudent);
     }
 
+    @Test
+    @DisplayName("Multiple stubbing")
+    void multipleStubbing() throws Exception {
+        CollegeStudent nullStudent = (CollegeStudent) context.getBean(CollegeStudent.class);
+        when(dao.checkNull(nullStudent)).thenThrow(new RuntimeException()).thenReturn("Now we're returning something after thrown");
+        //stubbing one: assert throw
+        assertThrows(RuntimeException.class, () -> service.checkNull(nullStudent));
+        //stubbing two: assert returned string equals the expected string
+        assertEquals("Now we're returning something after thrown",service.checkNull(nullStudent));
+    }
+
 }
