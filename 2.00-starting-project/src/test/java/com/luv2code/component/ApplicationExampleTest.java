@@ -99,14 +99,14 @@ public class ApplicationExampleTest {
     @Test
     @DisplayName("grade not null")
     void testGradeNotNull() throws Exception {
-        assertNotNull(student.getStudentGrades().getMathGradeResults(),"grade must not be null");
+        assertNotNull(student.getStudentGrades().getMathGradeResults(), "grade must not be null");
     }
 
 
     @Test
     @DisplayName("create a student without grade init")
     void testCreateStudentWithoutGradeInit() throws Exception {
-        CollegeStudent stu2 = context.getBean("collegeStudent",CollegeStudent.class);
+        CollegeStudent stu2 = context.getBean("collegeStudent", CollegeStudent.class);
         System.out.println("stu2 = " + stu2);
         stu2.setFirstname("John");
         stu2.setLastname("Smith");
@@ -114,7 +114,7 @@ public class ApplicationExampleTest {
         assertNotNull(stu2.getFirstname(), "Firstname must not be null");
         assertNotNull(stu2.getLastname(), "Lastname must not be null");
         assertNotNull(stu2.getEmailAddress(), "Email address must not be null");
-        assertNull(studentGrades.checkNull(stu2.getStudentGrades()),"we have NOT init the grade, shall PASS here");
+        assertNull(studentGrades.checkNull(stu2.getStudentGrades()), "we have NOT init the grade, shall PASS here");
         System.out.println("stu2 = " + stu2);
     }
 
@@ -128,6 +128,16 @@ public class ApplicationExampleTest {
          * we now got two different objects
          * Hence, this test passed.
          */
-        assertNotSame(stu2,student,"shall not be the same one");
+        assertNotSame(stu2, student, "shall not be the same one");
+    }
+
+    @DisplayName("Find Grade Point Average")
+    @Test
+    public void findGradePointAverage() {
+        assertAll("Testing all assertEquals",
+                () -> assertEquals(353.25, studentGrades.addGradeResultsForSingleClass(student.getStudentGrades().getMathGradeResults())),
+                () -> assertEquals(88.31, studentGrades.findGradePointAverage(student.getStudentGrades().getMathGradeResults()))
+
+        );
     }
 }
