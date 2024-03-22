@@ -15,7 +15,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
 
+import java.util.stream.Collector;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 /**
@@ -62,6 +65,19 @@ public class MockAnnotationTest {
         verify(dao).addGradeResultsForSingleClass(studentGrades.getMathGradeResults());
         //verify the dao method is called wantedNumberOfInvocation times
         verify(dao, times(1)).addGradeResultsForSingleClass(studentGrades.getMathGradeResults());
+    }
+
+    @Test
+    @DisplayName("throw Runtime exception")
+    void throwRuntimeException() throws Exception {
+        CollegeStudent nullStudent = (CollegeStudent) context.getBean(CollegeStudent.class);
+        when(dao.checkNull(nullStudent)).thenThrow(new RuntimeException());
+        // call the method
+        assertThrows(RuntimeException.class, () -> service.checkNull(nullStudent));
+        //verify the dao method is called
+        verify(dao).checkNull(nullStudent);
+        //verify the dao method is called wantedNumberOfInvocation times
+        verify(dao,times(1)).checkNull(nullStudent);
     }
 
 }
