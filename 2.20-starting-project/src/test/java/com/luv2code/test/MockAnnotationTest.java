@@ -91,4 +91,18 @@ public class MockAnnotationTest {
         assertEquals("Now we're returning something after thrown",service.checkNull(nullStudent));
     }
 
+    @Test
+    @DisplayName("Multiple stubbing with verify")
+    void throwRetimeException() throws Exception {
+        CollegeStudent student = context.getBean("collegeStudent", CollegeStudent.class);
+        //set expectations
+        doThrow(RuntimeException.class).when(dao).checkNull(student);
+        //
+        assertThrows(RuntimeException.class, () -> service.checkNull(student));
+        //verify the dao method is called
+        verify(dao).checkNull(student);
+        //verify the dao method is called wantedNumberOfInvocation times
+        verify(dao,times(1)).checkNull(student);
+    }
+
 }
