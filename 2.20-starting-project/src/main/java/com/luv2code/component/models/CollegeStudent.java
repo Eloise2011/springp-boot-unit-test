@@ -5,6 +5,7 @@ public class CollegeStudent implements Student {
     private String lastname;
     private String emailAddress;
     private StudentGrades studentGrades;
+    private int id;
 
     public CollegeStudent() {
     }
@@ -13,6 +14,18 @@ public class CollegeStudent implements Student {
         this.firstname = firstname;
         this.lastname = lastname;
         this.emailAddress = emailAddress;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private String getIdAndFirstName(){
+        return getId() + " " + getFirstname();
     }
 
     public String getFirstname() {
@@ -50,6 +63,7 @@ public class CollegeStudent implements Student {
     @Override
     public String toString() {
         return "CollegeStudent{" +
+                "id='" + id + '\'' +
                 "firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", emailAddress='" + emailAddress + '\'' +
